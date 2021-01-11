@@ -10,10 +10,8 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "firebase": "^8.2.1"
-  },
   "devDependencies": {
+    "firebase": "^8.2.1",
     "parcel-bundler": "^1.12.4",
     "regenerator-runtime": "^0.13.7",
     "sass": "^1.32.0"

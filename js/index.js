@@ -2,7 +2,6 @@ import Cupping from './cupping.class';
 import message from './message';
 import elements from './htmlElements';
 import {setBubble} from './range';
-
 require('regenerator-runtime/runtime');
 require('./range')
 
