@@ -18,10 +18,12 @@
 }
 
 .screen {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 100%;
+  &.flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+  }
 }
 
 #screen-login {
@@ -104,6 +106,11 @@ label {
 
 .alert-danger {
   background-color: indianred;
+  color: white;
+}
+
+.alert-success {
+  background-color: #5ccd7c;
   color: white;
 }
 

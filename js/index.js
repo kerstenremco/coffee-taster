@@ -1,11 +1,40 @@
 import Cupping from './cupping.class';
 import message from './message';
 import elements from './htmlElements';
-import Form from './form.class';
 import {setBubble} from './range';
 
 require('regenerator-runtime/runtime');
 require('./range')
+
+// === Add event listeners ===
+
+// On login submit
+elements.loginSubmit.addEventListener('click', () => {
+	const email = elements.loginEmail.value;
+	const password = elements.loginPassword.value;
+	auth.signInWithEmailAndPassword(email, password)
+		.catch(_err => message.show('Fout tijdens inloggen', 'danger'));
+});
+
+// On cupping list click
+elements.cuppingsList.addEventListener('click', function(e) {
+	const id = e.target.closest('.cupping-list-item').dataset.cuppingid;
+	if(id) renderCuppingForm(id);
+});
+
+// Select type form
+elements.selectTypeList.addEventListener('click', function(e) {
+	const type = e.target.closest('#select-type li').innerText;
+	renderCuppingFormByType(type)
+});
+
+// Save form button
+elements.formSubmit.addEventListener('click', async () => {
+	await state.cuppings.current.currentForm.saveToDb();
+	message.show('Beoordeling opgeslagen!', 'success')
+})
+
+// === End add event listeners ===
 
 const state = {user: {}, cuppings: []};
 
@@ -29,7 +58,7 @@ auth.onAuthStateChanged(async(user) => {
 
 		// Put cuppings in state
 		cuppingsSnapshot.forEach(cupping => {
-			state.cuppings.push(new Cupping(cupping.key, cupping.val().name, cupping.val().active, cupping.val().coffeeTypes, cupping.val().forms));
+			state.cuppings.push(Cupping.constructFromDatabaseEntry(cupping));
 		});
 
 		// Show cuppings list screen
@@ -41,21 +70,14 @@ auth.onAuthStateChanged(async(user) => {
 		// Render cuppings in list
 		renderCuppingsList();
 
+		console.log(state);
+
 	} else {
 		// Clear state
 		state.user = {};
 
 		// Show login
 		render(elements.fullLoginScreen);
-
-		// Add event listener for form submit
-		elements.loginSubmit.addEventListener('click', () => {
-			// On login submit, call auth signin functio
-			const email = elements.loginEmail.value;
-			const password = elements.loginPassword.value;
-			auth.signInWithEmailAndPassword(email, password)
-				.catch(_err => message.show('Fout tijdens inloggen', 'danger'));
-		});
 	}
 });
 
@@ -72,12 +94,6 @@ const render = function(screen) {
 
 const renderCuppingsList = function() {
 	state.cuppings.forEach(cupping => cupping.renderOnList(elements.cuppingsList));
-
-	// Set event listener for on list click
-	elements.cuppingsList.addEventListener('click', function(e) {
-		const id = e.target.closest('.cupping-list-item').dataset.cuppingid;
-		if(id) renderCuppingForm(id);
-	});
 };
 
 const renderCuppingForm = function(id) {
@@ -93,15 +109,9 @@ const renderCuppingForm = function(id) {
 		const html = `<li>${type}</li>`;
 		elements.selectTypeList.insertAdjacentHTML('beforeend', html);
 	});
-
-	// Add event listener
-	elements.selectTypeList.addEventListener('click', function(e) {
-		const type = e.target.closest('#select-type li').innerText;
-		renderCuppingFormByType(type, id)
-	});
 };
 
-const renderCuppingFormByType = function(type, id) {
+const renderCuppingFormByType = function(type) {
 	const subjectTranslations = [
 		["cremeLayer", "Cremelaag"],
 		["nose", "Geur"],
@@ -109,16 +119,16 @@ const renderCuppingFormByType = function(type, id) {
 		["afterTaste", "Nasmaak"],
 	]
 	// Check if user has active form and select form
-	const form = state.cuppings.current.forms.find(form => form?.owner === state.user.uid && form?.type === type) || new Form(2, state.user.uid, type)
+	state.cuppings.current.currentForm = state.cuppings.current.getFormByTypeAndOwner(type, state.user.uid) || state.cuppings.current.createNewForm(state.user.uid, type)
 
 	// For each subject, render slider
 	elements.cuppingFormSliders.innerHTML = '';
-	Object.entries(form.scores).forEach(([key, value]) => {
+	Object.entries(state.cuppings.current.currentForm.scores).forEach(([key, value]) => {
 		const subject = subjectTranslations.find(t => t[0] === key)[1] || key;
 		const html = `
 				<p class="subject">${subject}</p>
 				<div class="range-wrap">
-				<input type="range" class="range" min="1" max="10" value="${value || 1}">
+				<input type="range" class="range" data-key="${key}" min="1" max="10" value="${value || 1}">
 				<output class="bubble"></output>
 				</div>
 		`;
@@ -130,6 +140,8 @@ const renderCuppingFormByType = function(type, id) {
 
 		range.addEventListener("input", () => {
 			setBubble(range, bubble);
+			const key = range.dataset.key;
+			state.cuppings.current.currentForm.setValue(key, range.value)
 		});
 
 		// setting bubble on DOM load
@@ -138,5 +150,4 @@ const renderCuppingFormByType = function(type, id) {
 
 	// Enable save button
 	elements.formSubmit.classList.remove('hide');
-	//TODO: Bij klik moet functie worden aangeroepen welke formulier opstaat. Nog uitzoeken hoe het met IDs in DB zit
 };
