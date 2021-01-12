@@ -17,48 +17,8 @@
     <title>Coffee Taster</title>
 </head>
 <body>
-<div class="container">
-    <!--LOADING SCREEN-->
-    <div class="screen flex hide" id="screen-loading">
-        <img src="img/logo.png" alt="Coffee taster logo" class="logo"/>
-        <div class="loader">Loading...</div>
-    </div>
-    <!--END LOADING SCREEN-->
-
-    <!--LOGIN SCREEN-->
-    <div class="screen flex hide" id="screen-login">
-        <img src="img/logo.png" alt="Coffee taster logo" class="logo"/>
-        <div class="login-form flex1">
-            <label for="loginEmail">Emailadres</label>
-            <input type="email" id="loginEmail" placeholder="name@example.com"/>
-            <label for="loginPassword">Wachtwoord</label>
-            <input type="password" id="loginPassword" placeholder="Password"/>
-
-        </div>
-        <button type="button" class="button-bottom" id="loginSubmit">Inloggen</button>
-    </div>
-    <!--END LOGIN SCREEN-->
-
-    <!--CUPPING SCREEN-->
-    <div class="screen flex hide" id="screen-cupping">
-        <h1 class="cupping-welcome">
-            <span class="name">Naam</span>, het is een <span>altijd</span> een goed moment voor <span>koffie!</span>
-        </h1>
-        <div class="flex1" id="cuppings-list"></div>
-    </div>
-    <!--END CUPPING SCREEN-->
-
-    <!--CUPPING FORM SCREEN-->
-    <div class="screen hide" id="screen-cupping-form">
-        <ul id="select-type">
-        </ul>
-        <div id="cupping-form-sliders"></div>
-        <button type="button" class="button-bottom" id="formSubmit">Opslaan</button>
-    </div>
-    <!--END CUPPING FORM SCREEN-->
-</div>
-
-
+<div class="container" id="container">
+    <p id="js-warning">Zorg ervoor dat JavaScript ingeschakeld is!</p>
 </div>
 </body>
 </html>

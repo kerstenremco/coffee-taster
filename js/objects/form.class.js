@@ -1,5 +1,5 @@
 require('regenerator-runtime/runtime');
-import {database} from './firebase'
+import {database} from '../firebase'
 
 class Form {
 	#score = {
