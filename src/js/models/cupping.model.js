@@ -1,6 +1,6 @@
-import Form from './form.class';
+import Form from './form.model';
 
-class Cupping {
+class CuppingModel {
 	#forms = [];
 
 	constructor(key, name, active, coffeeTypes) {
@@ -10,19 +10,7 @@ class Cupping {
 		this.coffeeTypes = coffeeTypes;
 	}
 
-	static constructFromDatabaseEntry(dbObject) {
-		const key = dbObject.key;
-		const cupping = dbObject.val();
-		const newCupping = new Cupping(key, cupping.name, cupping.active, cupping.coffeeTypes, cupping.forms);
-		if(cupping.forms) {
-			Object.entries(cupping.forms).forEach(([key, form]) => {
-				newCupping.forms = Form.constructFromDatabaseEntry(newCupping.key, key, form);
-			});
-		}
-		return newCupping;
-	}
-
-	set forms(formObject) {
+	addForm(formObject) {
 		this.#forms.push(formObject);
 	}
 
@@ -46,10 +34,10 @@ class Cupping {
       <hr />
     `;
 		listElement.insertAdjacentHTML('beforeend', html);
-		const insertedElement = listElement.querySelector("div:last-of-type")
-		insertedElement.addEventListener('click', () => handleCuppingListClick(this.key))
+		const insertedElement = listElement.querySelector('div:last-of-type');
+		insertedElement.addEventListener('click', () => handleCuppingListClick(this.key));
 
 	}
 }
 
-export default Cupping;
+export default CuppingModel;

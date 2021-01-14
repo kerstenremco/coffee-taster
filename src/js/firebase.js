@@ -1,4 +1,4 @@
-import firebase from "firebase/app";
+import firebase from 'firebase/app';
 
 require('firebase/auth');
 require('firebase/database');
@@ -15,4 +15,4 @@ firebase.initializeApp({
 });
 
 exports.database = firebase.database();
-exports.auth = firebase.auth()
+exports.auth = firebase.auth();

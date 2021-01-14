@@ -124,6 +124,7 @@ label {
   justify-content: space-around;
   padding: 0;
   text-align: center;
+
   li {
     border: 1px dotted;
     padding: 10px 0;
@@ -131,6 +132,7 @@ label {
     flex-grow: 1;
     margin: 0 3px;
     border-radius: 8px;
+
     &.active {
       background-color: $dark;
       color: #ffffff;

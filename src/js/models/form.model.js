@@ -1,7 +1,7 @@
 require('regenerator-runtime/runtime');
-import {database} from '../firebase'
+import {database} from '../firebase';
 
-class Form {
+class FormModel {
 	#score = {
 		cremeLayer: 0, nose: 0, body: 0, afterTaste: 0
 	};
@@ -40,12 +40,10 @@ class Form {
 
 	async saveToDb() {
 		const obj = {
-			type: this.type,
-			user: this.owner,
-			scores: {
+			type: this.type, user: this.owner, scores: {
 				...this.scores
 			}
-		}
+		};
 		if(this.key === 0) {
 			const newDbObj = await database.ref(`/cuppings/${this.belongsTo}/forms/`).push(obj);
 			this.key = newDbObj.key;
@@ -57,4 +55,4 @@ class Form {
 
 }
 
-export default Form;
+export default FormModel;
