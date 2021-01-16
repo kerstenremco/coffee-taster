@@ -1,4 +1,4 @@
-import {auth, database} from '../firebase';
+import {auth, database, databaseRef} from '../firebase';
 import Event from '../event';
 
 class UserModel {
@@ -10,8 +10,9 @@ class UserModel {
 		this.userLoggedInError = new Event();
 		auth.onAuthStateChanged(user => {
 			if(user) {
-				database.ref(`/users/${user.uid}`).once('value')
+				database.ref(databaseRef(`/users/${user.uid}`)).once('value')
 					.then(snapshot => {
+						if(!snapshot.exists()) throw new Error('Gebruiker bestaan niet in database')
 						this.#user = {
 							uid: user.uid, email: user.email, name: snapshot.val().name
 						};

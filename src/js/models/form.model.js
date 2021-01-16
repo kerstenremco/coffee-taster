@@ -1,5 +1,5 @@
 require('regenerator-runtime/runtime');
-import {database} from '../firebase';
+import {database, databaseRef} from '../firebase';
 
 class FormModel {
 	#score = {
@@ -42,10 +42,10 @@ class FormModel {
 			}
 		};
 		if(this.key === 0) {
-			const newDbObj = await database.ref(`/cuppings/${this.belongsTo}/forms/`).push(obj);
+			const newDbObj = await database.ref(databaseRef(`/cuppings/${this.belongsTo}/forms/`)).push(obj);
 			this.key = newDbObj['key'];
 		} else {
-			await database.ref(`/cuppings/${this.belongsTo}/forms/${this.key}`).set(obj);
+			await database.ref(databaseRef(`/cuppings/${this.belongsTo}/forms/${this.key}`)).set(obj);
 		}
 	}
 

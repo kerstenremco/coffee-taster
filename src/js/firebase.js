@@ -14,5 +14,14 @@ firebase.initializeApp({
 	appId: process.env.FIREBASE_APP_ID
 });
 
+function databaseRef(ref) {
+	let reference = ref;
+	if(process.env.FIREBASE_DATABASE_SUB) {
+		reference = process.env.FIREBASE_DATABASE_SUB + '/' + reference;
+	}
+	return reference;
+}
+
 exports.database = firebase.database();
 exports.auth = firebase.auth();
+exports.databaseRef = databaseRef;

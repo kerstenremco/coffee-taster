@@ -1,5 +1,5 @@
 import CuppingModel from './cupping.model';
-import {database} from '../firebase';
+import {database, databaseRef} from '../firebase';
 import FormModel from './form.model';
 
 require('regenerator-runtime/runtime');
@@ -8,7 +8,7 @@ class CuppingsModel {
 	#cuppings = [];
 
 	async fetch() {
-		const snapshot = await database.ref(`/cuppings`).once('value');
+		const snapshot = await database.ref(databaseRef('/cuppings')).once('value');
 		snapshot.forEach(cuppingSnapshot => {
 			const value = cuppingSnapshot.val();
 			if(!value) return;

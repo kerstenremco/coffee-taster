@@ -49,6 +49,7 @@ class Controller {
 
 	userLoggedInErrorHandler(err) {
 		console.error(err)
+		this.loginView.render();
 		this.message.show('danger', 'Fout tijdens inloggen');
 	}
 
