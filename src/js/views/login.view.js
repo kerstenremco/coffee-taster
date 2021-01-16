@@ -12,7 +12,7 @@ class LoginView {
 			<div class="screen flex" id="screen-login">
         <img src="${Logo}" alt="Coffee taster logo" class="logo"/>
         <div class="login-form flex1">
-            <label for="loginEmail">Emailadres</label>
+            <label for="loginEmail">E-mailadres</label>
             <input type="email" id="loginEmail" placeholder="name@example.com"/>
             <label for="loginPassword">Wachtwoord</label>
             <input type="password" id="loginPassword" placeholder="Password"/>

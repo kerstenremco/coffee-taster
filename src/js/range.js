@@ -1,6 +1,3 @@
-// <!-- Forked from Chris Coyier's pen : https://codepen.io/chriscoyier/pen/eYNQyPe -->
-
-
 exports.setBubble = function(range, bubble) {
 	const val = range.value;
 

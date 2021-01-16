@@ -62,11 +62,6 @@ body {
   color: white;
 }
 
-.dark-bg {
-  background-color: #603813 !important;
-  border-color: #603813;
-}
-
 .login-form input,
 .login-form input:focus {
   background-color: rgba(0, 0, 0, 0);
@@ -136,12 +131,16 @@ label {
     &.active {
       background-color: $dark;
       color: #ffffff;
+      border: none;
     }
   }
 }
 
 .cupping-list-item {
   display: flex;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #969692;
 
   :first-child {
     flex-grow: 1;

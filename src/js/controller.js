@@ -9,6 +9,7 @@ import CuppingView from './views/cupping.view';
 
 class Controller {
 	#currentCupping;
+	#currentForm;
 
 	constructor() {
 		// Get HTML container
@@ -47,7 +48,7 @@ class Controller {
 	}
 
 	userLoggedInErrorHandler(err) {
-		console.error(err);
+		console.error(err)
 		this.message.show('danger', 'Fout tijdens inloggen');
 	}
 
@@ -55,12 +56,26 @@ class Controller {
 		this.#currentCupping = this.cuppingsModel.getCuppingByKey(key);
 		this.cuppingView = new CuppingView(this.htmlElement, this.#currentCupping, this.userModel.user.uid);
 		this.cuppingView.backEvent.addListener(() => this.cuppingsView.render());
+		this.cuppingView.saveEvent.addListener(this.saveFormHandler.bind(this));
 		this.cuppingView.loadFormEvent.addListener((type) => this.loadFormHandler(type));
+		this.cuppingView.changeScoreEvent.addListener((key, value) => this.#currentForm.setValue(key, value));
 		this.cuppingView.render();
 	}
 
 	loadFormHandler(type) {
-		this.cuppingView.currentForm = this.#currentCupping.getFormByTypeAndOwner(type, this.userModel.user.uid);
+		this.#currentForm = this.#currentCupping.getFormByTypeAndOwner(type, this.userModel.user.uid);
+		this.cuppingView.currentType = type;
+		this.cuppingView.currentScores = this.#currentForm.scores;
+	}
+
+	async saveFormHandler() {
+		try {
+			await this.#currentForm.saveToDb();
+			this.message.show('success', 'Scores opgeslagen')
+		} catch(e) {
+			console.error(e);
+			this.message.show('danger', 'Fout tijdens opslaan')
+		}
 	}
 }
 

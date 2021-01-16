@@ -15,7 +15,7 @@ class CuppingsModel {
 			const c = new CuppingModel(cuppingSnapshot.key, value.name, value.active, value.coffeeTypes);
 			if(value.forms) {
 				Object.entries(value.forms).forEach(([key, value]) => {
-					const f = new FormModel(cuppingSnapshot.key, key, value.user, value.type);
+					const f = new FormModel(cuppingSnapshot.key, key, value.user, value.type, value.scores);
 					c.addForm(f);
 				});
 			}

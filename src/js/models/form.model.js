@@ -7,17 +7,14 @@ class FormModel {
 	};
 	#closed = false;
 
-	constructor(belongsTo, key, owner, type) {
+	constructor(belongsTo, key, owner, type, scores) {
 		this.belongsTo = belongsTo;
 		this.key = key;
 		this.owner = owner;
 		this.type = type;
-	}
-
-	static constructFromDatabaseEntry(cuppingKey, key, form) {
-		const newForm = new Form(cuppingKey, key, form.user, form.type);
-		if(form.scores) Object.entries(form.scores).forEach(([key, value]) => newForm.setValue(key, value));
-		return newForm;
+		if(scores) {
+			Object.entries(scores).forEach(([key, value]) => this.setValue(key, value))
+		}
 	}
 
 	get scores() {
@@ -46,10 +43,9 @@ class FormModel {
 		};
 		if(this.key === 0) {
 			const newDbObj = await database.ref(`/cuppings/${this.belongsTo}/forms/`).push(obj);
-			this.key = newDbObj.key;
+			this.key = newDbObj['key'];
 		} else {
 			await database.ref(`/cuppings/${this.belongsTo}/forms/${this.key}`).set(obj);
-
 		}
 	}
 

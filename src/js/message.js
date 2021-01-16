@@ -8,7 +8,7 @@ class Message {
     ${message}
     </div>`;
 		this.remove();
-		this.htmlElement.insertAdjacentHTML('afterBegin', html);
+		this.htmlElement.insertAdjacentHTML("afterbegin", html);
 		setTimeout(this.remove.bind(this), 3000);
 	}
 

@@ -15,12 +15,11 @@ class CuppingModel {
 	}
 
 	getFormByTypeAndOwner(type, owner) {
-		return this.#forms.find(form => form.owner === owner && form.type === type);
-	}
-
-	createNewForm(user, type) {
-		const form = new Form(this.key, 0, user, type);
-		this.forms = form;
+		let form = this.#forms.find(form => form.owner === owner && form.type === type);
+		if(!form) {
+			form = new Form(this.key, 0, owner, type);
+			this.addForm(form);
+		}
 		return form;
 	}
 

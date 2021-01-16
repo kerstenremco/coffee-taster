@@ -14,7 +14,6 @@ class CuppingsView {
 		html.innerHTML = `
     	<p>${name}</p>
       <p>></p>
-      <hr />
     `;
 		html.addEventListener('click', () => this.cuppingClickEvent.trigger(key));
 		return html;

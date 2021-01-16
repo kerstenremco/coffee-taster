@@ -41,13 +41,13 @@
   height: 2rem;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none; /* Remove pointer events on Bubble so user can click on the actual thumb beaneath it!  */
+  pointer-events: none;
   color: transparent;
   display: grid;
-  place-items: center; /*  Place the number on the center  */
+  place-items: center;
   font-weight: bold;
   transition: color 100ms ease, transform 100ms ease;
-  user-select: none; /*  Prevent Accidentally highlighting the number while sliding the cursor  */
+  user-select: none;
 }
 
 .range-wrap:hover .bubble,
