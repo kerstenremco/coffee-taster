@@ -3,11 +3,12 @@ import LoadingView from './views/loading.view';
 import LoginView from './views/login.view';
 import UserModel from './models/user.model';
 import Message from './message';
-import CuppingsModel from './models/cuppings.model';
 import CuppingsView from './views/cuppings.view';
 import CuppingView from './views/cupping.view';
+import CuppingModel from "./models/cupping.model";
 
 class Controller {
+	#cuppings = [];
 	#currentCupping;
 	#currentForm;
 
@@ -30,9 +31,6 @@ class Controller {
 		this.userModel.userLoggedInEvent.addListener(this.userLoggedInHandler.bind(this));
 		this.userModel.userLoggedOutEvent.addListener(() => this.loginView.render());
 		this.userModel.userLoggedInError.addListener(this.userLoggedInErrorHandler.bind(this));
-
-		// Cuppings Model
-		this.cuppingsModel = new CuppingsModel();
 	}
 
 	run() {
@@ -41,8 +39,9 @@ class Controller {
 
 	async userLoggedInHandler() {
 		this.loadingView.render();
-		await this.cuppingsModel.fetch();
-		this.cuppingsView = new CuppingsView(this.htmlElement, this.userModel.user.name, this.cuppingsModel.cuppings);
+		this.#cuppings = await CuppingModel.fetch();
+		// await this.cuppingsModel.fetch();
+		this.cuppingsView = new CuppingsView(this.htmlElement, this.userModel.user.name, this.#cuppings);
 		this.cuppingsView.render();
 		this.cuppingsView.cuppingClickEvent.addListener(this.cuppingClickedHandler.bind(this));
 	}
@@ -54,7 +53,7 @@ class Controller {
 	}
 
 	cuppingClickedHandler(key) {
-		this.#currentCupping = this.cuppingsModel.getCuppingByKey(key);
+		this.#currentCupping = CuppingModel.getCuppingByKey(this.#cuppings, key);
 		this.cuppingView = new CuppingView(this.htmlElement, this.#currentCupping, this.userModel.user.uid);
 		this.cuppingView.backEvent.addListener(() => this.cuppingsView.render());
 		this.cuppingView.saveEvent.addListener(this.saveFormHandler.bind(this));
