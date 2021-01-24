@@ -1,13 +1,13 @@
-exports.setBubble = function(range, bubble) {
-	const val = range.value;
+exports.setBubble = function (range, bubble) {
+  const val = range.value;
 
-	const min = range.min;
-	const max = range.max;
+  const min = range.min;
+  const max = range.max;
 
-	const offset = Number(((val - min) * 100) / (max - min));
+  const offset = Number(((val - min) * 100) / (max - min));
 
-	bubble.textContent = val;
+  bubble.textContent = val;
 
-	// yes, 14px is a magic number
-	bubble.style.left = `calc(${offset}% - 14px)`;
+  // yes, 14px is a magic number
+  bubble.style.left = `calc(${offset}% - 14px)`;
 };
