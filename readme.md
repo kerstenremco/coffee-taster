@@ -1,9 +1,10 @@
 # About Coffee Taster App
+
 The coffee taster app is a web application for registering coffee cup ratings. The app is built with **vanilla javascript** and uses **Google Firebase** as the backend for authentication and database storage.
 
 ## Screenshots
 
-> aaa
+See the ***screenshots*** folder for examples.
 
 # How to dev?
 
@@ -19,6 +20,7 @@ This projects uses Google Firebase for authentication and database. Make sure yo
 Copy the file `.env.development.example` to `.env.development` and replace the values in this new file with the values of your Firebase project.
 
 This ENV file is only used for local development.
+
 ## Development
 
 Run `npm run dev` to bundle the project with Parcel.js and open a local preview of the app.
